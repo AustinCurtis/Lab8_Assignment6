@@ -1,0 +1,70 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <!-- to get rid of favicon request in console -->
+  <link rel="shortcut icon" href="">
+
+  <!-- set viewport - for responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- P5  -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.js"></script>
+  <script language="javascript" type="text/javascript" src="sketch.js"></script>
+
+  <!-- SOCKET.IO  -->
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script>
+  var socket = io.connect();
+
+  socket.on('connect', function() {
+    console.log("Connected");
+  });
+
+  socket.on('sensor', function(data){
+    var numbers = split(data, ',');
+    dataIn = Number(numbers[0]);
+    data2 = Number(numbers[1]);
+    //console.log(dataIn);
+    //console.log(data2);
+    rad = map(dataIn, 0, 255, 0, windowWidth);
+    in2 = map(data2, 0, 255, 0, windowHeight);
+    //rad = Number(data);
+    //console.log(rad);
+
+    if (data2<=85  && col != 'green') {
+      col = 'green';
+      console.log('green');
+    } else if(data2>85 && data2<=170  && col != 'yellow'){
+      col = 'yellow';
+      console.log('yellow');
+    }else if(data2>170 && col != 'red'){
+      col = 'red';
+      console.log('red');
+    }
+
+    // if (rad > xs && rad < xs+50 && in2 > ys && in2 < ys+50) {
+    //   newBox();
+    // }
+    if(int(dist(rad, in2, xs+25, ys+25))<50){
+      newBox();
+    }
+
+  });
+    
+  </script>
+
+  <style> 
+    body{
+      padding: 0; 
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+</body>
+</html>
+
+
+
